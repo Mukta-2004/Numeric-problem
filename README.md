@@ -700,18 +700,148 @@ Approximate Root = -0.894696
 ```
 ### Secant Method
 #### Secant Theory
-[Add your theory content here]
+Introduction:
+
+The Secant Method is a numerical technique used to find the root of a nonlinear equation f(x) = 0. It is an open method, meaning it does not require the root to be bracketed between two values. Instead, it uses two initial approximations to generate successive better estimates.
+
+Working Principle:
+
+The method starts with two initial guesses x0 and x1. A straight line (secant) is drawn between the points (x0, f(x0)) and (x1, f(x1)). The point where this line intersects the x-axis gives the next approximation.
+The iteration formula is:
+
+x2 = x1 - f(x1)*(x1 - x0)/(f(x1) - f(x0))
+
+After each iteration, the older value is replaced and the process continues until the function value at the new point is smaller than the given tolerance or the maximum number of iterations is reached.
+
+Special Cases:
+1. The method fails if f(x1) - f(x0) becomes zero (division by zero).
+2. Poor initial guesses may lead to slow convergence or divergence.
+3. Convergence is not guaranteed for all functions.
+
+Advantages:
+1. Faster convergence than bisection and false position methods.
+2. Does not require derivative calculation.
+
+Limitations:
+1. No guarantee of convergence.
+2. Sensitive to initial guesses.
+3. May diverge for certain functions.
+
+Best and Worst Use Cases:
+
+Works Best When:
+1. Initial guesses are close to the actual root.
+2. The function is smooth and continuous.
+Works Worst When:
+1. Initial guesses are far from the root.
+2. Function behavior is highly irregular.
+3. f(x1) is very close to f(x0).
+
+Conclusion:
+
+The Secant Method is an efficient root-finding technique that improves upon bracketing methods in speed. However, its success strongly depends on the choice of initial guesses.
 #### Secant Code
 ```python
-# Add your code here
+#include <bits/stdc++.h>
+#include <fstream>
+using namespace std;
+
+double f(double x, double a4, double a3, double a2, double a1, double a0)
+{
+    return a4*pow(x,4) + a3*pow(x,3) + a2*pow(x,2) + a1*x + a0;
+}
+
+double secant(double x0,double x1,double E,int mIter,double a4,double a3,double a2,double a1,double a0,ofstream &out)
+{
+    double x2;
+    for(int i = 1; i <= mIter; i++)
+    {
+        double f0 = f(x0, a4, a3, a2, a1, a0);
+        double f1 = f(x1, a4, a3, a2, a1, a0);
+
+        if(fabs(f1 - f0) < 1e-12)
+        {
+            out<<"Division by zero occured"<<endl;
+            return x1;
+        }
+        x2 = x1-f1*(x1-x0)/(f1-f0);
+        out<<"Iteration "<<i<<" , x = "<<x2<<" , f(x) = "<<f(x2, a4, a3, a2, a1, a0)<<endl;
+
+        if(fabs(f(x2, a4, a3, a2, a1, a0))< E)
+        {
+            out<<"Converged after "<<i<<" iterations"<<endl;
+            return x2;
+        }
+        x0 = x1;
+        x1 = x2;
+    }
+    out<<"Max iterations reached"<<endl;
+    return x2;
+}
+
+int main()
+{
+    string inputFile = "InputSecant.txt";
+    string outputFile = "OutputSecant.txt";
+
+    ifstream in(inputFile);
+    if(!in)
+    {
+        cout<<"Input file error"<<endl;
+        return 1;
+    }
+
+    double a4, a3, a2, a1, a0;
+    double x0, x1, E;
+    int mIter;
+
+    in >> a4 >> a3 >> a2 >> a1 >> a0;
+    in >> x0 >> x1;
+    in >> E;
+    in >> mIter;
+    in.close();
+
+    ofstream out(outputFile);
+    if(!out)
+    {
+        cout << "Output file error" << endl;
+        return 1;
+    }
+
+    out<<"Polynomial: "<<a4<<"x^4 + "<<a3<<"x^3 + "<<a2<<"x^2 + "<<a1<<"x + "<<a0<<endl;
+    out<<"Initial guesses: x0 = "<<x0<<", x1 = "<<x1<<endl;
+    out<<"Tolerance: "<<E<<endl;
+    out<<"Max Iterations: "<<mIter<<endl;
+
+    double root = secant(x0,x1,E,mIter,a4,a3,a2,a1,a0,out);
+    out<<"Approximate Root = "<<root<<endl;
+
+    out.close();
+    return 0;
+}
+
 ```
 #### Secant Input
 ```
-[Add your input format here]
+1 -3 0 2 -1
+-1 -0.8
+0.0001
+20
+
 ```
 #### Secant Output
 ```
-[Add your output format here]
+Polynomial: 1x^4 + -3x^3 + 0x^2 + 2x + -1
+Initial guesses: x0 = -1, x1 = -0.8
+Tolerance: 0.0001
+Max Iterations: 20
+Iteration 1 , x = -0.87911 , f(x) = -0.122726
+Iteration 2 , x = -0.897371 , f(x) = 0.0216173
+Iteration 3 , x = -0.894636 , f(x) = -0.00054223
+Iteration 4 , x = -0.894703 , f(x) = -2.29816e-06
+Converged after 4 iterations
+Approximate Root = -0.894703
+
 ```
 
 ### Newton Raphson Method
