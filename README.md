@@ -312,35 +312,41 @@
 #### Linear Equation Theory
 Introduction:
 Linear Regression is a numerical method used to determine the best fitting straight line between two variables x and y. The relationship is represented by a linear equation:
+
 y = a + b*x
+
 where a is the intercept and b is the slope of the line.
 
 Working Principle:
 The method uses the Least Squares approach to minimize the total squared error between observed data points and estimated values. Given n data points, required sums are calculated from x and y values. The slope and intercept are obtained using:
-b = (n*sum(x*y) - sum(x)sum(y)) / (n*sum(x*x) - (sum(x))^2)
+
+b = (n*sum(x*y) - sum(x)sum(y)) / (n*sum(x*x) - (sum(x))^2) ; 
+
 a = (sum(y) - b*sum(x)) / n
+
 Using these values, the best fit linear equation is formed.
 
 Special Cases:
-1.	If all x values are equal, the denominator becomes zero and regression is not possible.
+1. If all x values are equal, the denominator becomes zero and regression is not possible.
 2. At least two data points are required.
 3. If data points lie exactly on a straight line, the regression gives a perfect fit.
 
 Advantages:
-Simple and easy to implement
-Requires less computation
-Works well for large datasets
-Useful for prediction and trend analysis
+1. Simple and easy to implement.
+2. Requires less computation.
+3. Works well for large datasets.
+4. Useful for prediction and trend analysis.
 
 Best and Worst Use Cases:
 
 Works Best When:
-Data follows an approximately linear pattern
-Outliers are minimal
+1. Data follows an approximately linear pattern
+2. Outliers are minimal
+3. 
 Works Worst When:
-Data is highly nonlinear
-Extreme outliers are present
-Very small datasets
+1. Data is highly nonlinear
+2. Extreme outliers are present
+3. Very small datasets
 
 Conclusion:
 Linear Regression is a fundamental numerical technique for modeling linear relationships. While easy to apply and efficient, its accuracy depends on the nature and quality of the data.
