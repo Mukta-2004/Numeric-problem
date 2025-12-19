@@ -549,21 +549,154 @@ Inverse Matrix :
 ### False Position Method
 
 #### False Position Theory
-[Add your theory content here]
+Introduction:
+
+The False Position Method is a numerical technique used to find the root of a nonlinear equation f(x) = 0. It is a bracketing method, meaning it starts with an interval where the function values at the endpoints have opposite signs, ensuring that a root lies between them.
+
+Working Principle:
+
+The method begins with two initial guesses a and b such that f(a) and f(b) have opposite signs. A new approximation c is calculated by drawing a straight line between the points (a, f(a)) and (b, f(b)) and finding where it intersects the x-axis. The approximation is computed using:
+
+c = b - f(b)*(b - a) / (f(b) - f(a))
+
+The value of c replaces either a or b depending on the sign of f(c), so the root remains bracketed. This process is repeated until the function value at c is smaller than the given tolerance or the maximum number of iterations is reached.
+
+Special Cases:
+1. The method fails if f(a) and f(b) have the same sign.
+2. If one endpoint remains fixed, convergence may become slow.
+3. The method gives an exact root if f(c) becomes zero.
+
+Advantages:
+1. Always maintains the root within the interval.
+2. Guaranteed convergence if initial condition is satisfied.
+3. More accurate than the bisection method in many cases.
+
+Limitations:
+1. Convergence can be slow for certain functions.
+2. One endpoint may remain unchanged for many iterations.
+3. Slower compared to open methods like Newton-Raphson.
+
+Best and Worst Use Cases:
+
+Works Best When:
+1. f(a) and f(b) have opposite signs.
+2. The function is continuous in the interval.
+Works Worst When:
+1. Function slope is very small near one endpoint.
+2. Poor initial interval selection.
+
+Conclusion:
+
+The False Position Method is a reliable root-finding technique that combines the safety of bracketing methods with faster convergence than bisection. However, its performance depends on the nature of the function and interval selection.
 
 #### False Position Code
 ```python
-# Add your code here
+#include<bits/stdc++.h>
+#include <fstream>
+using namespace std;
+
+double f(double x,double a4,double a3,double a2,double a1,double a0)
+{
+    return a4*pow(x,4)+a3*pow(x,3)+a2*pow(x,2)+a1*x+a0;
+}
+double fp(double a,double b,double E,int mIter,double a4,double a3,double a2,double a1,double a0,ofstream &out)
+{
+    if (f(a,a4,a3,a2,a1,a0)*f(b,a4,a3,a2,a1,a0)>=0)
+    {
+        out<<"Invalid as f(a) and f(b) must have opposite signs"<<endl;;
+        return 1;
+    }
+
+    double c;
+    for (int i = 1; i <= mIter; i++)
+    {
+        c = a-(f(a,a4,a3,a2,a1,a0)*(b-a))/(f(b,a4,a3,a2,a1,a0)-f(a,a4,a3,a2,a1,a0));
+        out<<"Iteration "<<i<<" , c = "<<c<<" , f(c) = "<<f(c,a4,a3,a2,a1,a0)<<endl;
+
+        if(fabs(f(c,a4,a3,a2,a1,a0))<E)
+        {
+            out<<"Converged after "<<i<<" iterations"<<endl;
+            return c;
+        }
+        if(f(a,a4,a3,a2,a1,a0)*f(c,a4,a3,a2,a1,a0)<0)
+            b = c;
+        else
+            a = c;
+    }
+
+    out<<"Max iterations reached"<<endl;
+    return c;
+}
+
+int main()
+{
+    string inputFile = "InputFP.txt";
+    string outputFile = "OutputFP.txt";
+
+    ifstream in(inputFile);
+    if (!in)
+    {
+        cout << "Input file error"<<endl;
+        return 1;
+    }
+
+    double a4, a3, a2, a1, a0;
+    double a, b, E;
+    int mIter;
+
+    in>>a4>>a3>>a2>>a1>>a0;
+    in>>a>>b;
+    in>>E;
+    in>>mIter;
+    in.close();
+
+    ofstream out(outputFile);
+    if (!out)
+    {
+        cout<<"Output file error"<<endl;
+        return 1;
+    }
+    out<<"Polynomial: "<<a4<<"x^4 + "<<a3<<"x^3 + "<<a2<<"x^2 + "<<a1<<"x + "<<a0<<endl;
+    out<<"Interval: ["<<a<<", "<<b<<"]"<<endl;
+    out<<"Tolerance: "<<E<< endl;
+    out<<"Max Iterations: "<<mIter<<endl;
+    double root = fp(a,b,E,mIter,a4,a3,a2,a1,a0,out);
+
+    out<<"Approximate Root = "<<root<<endl;
+
+    out.close();
+
+    return 0;
+}
+
+
 ```
 
 #### False Position Input
 ```
-[Add your input format here]
+1 -3 0 2 -1
+-1 0
+0.0001
+20
+
 ```
 
 #### False Position Output
 ```
-[Add your output format here]
+Polynomial: 1x^4 + -3x^3 + 0x^2 + 2x + -1
+Interval: [-1, 0]
+Tolerance: 0.0001
+Max Iterations: 20
+Iteration 1 , c = -0.5 , f(c) = -1.5625
+Iteration 2 , c = -0.804878 , f(c) = -0.625805
+Iteration 3 , c = -0.879984 , f(c) = -0.116009
+Iteration 4 , c = -0.89246 , f(c) = -0.0180395
+Iteration 5 , c = -0.894366 , f(c) = -0.00272592
+Iteration 6 , c = -0.894653 , f(c) = -0.000410117
+Iteration 7 , c = -0.894696 , f(c) = -6.16619e-05
+Converged after 7 iterations
+Approximate Root = -0.894696
+
 ```
 ### Secant Method
 #### Secant Theory
