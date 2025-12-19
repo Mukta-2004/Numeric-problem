@@ -105,3 +105,207 @@
 ---
 
 
+### Solution of Linear Equations
+
+### Gauss Elimination Method
+
+#### Gauss Elimination Theory
+[Add your theory content here]
+
+#### Gauss Elimination Code
+```python
+# Add your code here
+```
+
+#### Gauss Elimination Input
+```
+[Add your input format here]
+```
+
+#### Gauss Elimination Output
+```
+[Add your output format here]
+```
+
+---
+
+### Gauss Jordan Elimination Method
+
+#### Gauss Jordan Theory
+[Add your theory content here]
+
+#### Gauss Jordan Code
+```python
+# Add your code here
+```
+
+#### Gauss Jordan Input
+```
+[Add your input format here]
+```
+
+#### Gauss Jordan Output
+```
+[Add your output format here]
+```
+
+---
+
+### LU Decomposition Method
+
+#### LU Decomposition Theory
+[Add your theory content here]
+
+#### LU Decomposition Code
+```python
+# Add your code here
+```
+
+#### LU Decomposition Input
+```
+[Add your input format here]
+```
+
+#### LU Decomposition Output
+```
+[Add your output format here]
+```
+
+---
+
+### Matrix Inversion
+
+#### Matrix Inversion Theory
+[Add your theory content here]
+
+#### Matrix Inversion Code
+```python
+# Add your code here
+```
+
+#### Matrix Inversion Input
+```
+[Add your input format here]
+```
+
+#### Matrix Inversion Output
+```
+[Add your output format here]
+```
+
+---
+
+### Solution of Non-Linear Equations
+
+### Bisection Method
+
+#### Bisection Theory
+[Add your theory content here]
+
+#### Bisection Code
+```python
+# Add your code here
+```
+
+#### Bisection Input
+```
+[Add your input format here]
+```
+
+#### Bisection Output
+```
+[Add your output format here]
+```
+
+---
+
+### False Position Method
+
+#### False Position Theory
+[Add your theory content here]
+
+#### False Position Code
+```python
+# Add your code here
+```
+
+#### False Position Input
+```
+[Add your input format here]
+```
+
+#### False Position Output
+```
+[Add your output format here]
+```
+### Secant Method
+#### Secant Theory
+[Add your theory content here]
+#### Secant Code
+```python
+# Add your code here
+```
+#### Secant Input
+```
+[Add your input format here]
+```
+#### Secant Output
+```
+[Add your output format here]
+```
+
+### Newton Raphson Method
+#### Newton Raphson Theory
+[Add your theory content here]
+#### Newton Raphson Code
+```python
+# Add your code here
+```
+#### Newton Raphson Input
+```
+[Add your input format here]
+```
+#### Newton Raphson Output
+```
+[Add your output format here]
+```
+
+### Solution of Differential Equations and Differentiation
+### Runge-Kutta Method
+#### Runge-Kutta Theory
+[Add your theory content here]
+#### Runge-Kutta Code
+```python
+# Add your code here
+```
+#### Runge-Kutta Input
+```
+[Add your input format here]
+```
+#### Runge-Kutta Output
+```
+[Add your output format here]
+```
+
+### Differentiation Method
+#### Differentiation Theory
+[Add your theory content here]
+#### Differentiation Code
+```python
+# Add your code here
+```
+#### Differentiation Input
+```
+[Add your input format here]
+```
+#### Differentiation Output
+```
+[Add your output format here]
+``` 
+
+---
+
+
+
+
+
