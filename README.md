@@ -132,21 +132,206 @@
 ### Gauss Jordan Elimination Method
 
 #### Gauss Jordan Theory
-[Add your theory content here]
+Introduction:
+
+The Gauss–Jordan Method is a numerical technique used to solve a system of linear equations. It transforms the given system into an equivalent system whose solution can be obtained directly. The method operates on the augmented matrix of the system and reduces it to reduced row echelon form.
+
+Working Principle:
+
+The system of linear equations is first written in augmented matrix form. The method then performs a sequence of elementary row operations to make the matrix diagonal with all diagonal elements equal to one.
+
+For each column:
+1. A suitable pivot element is selected.
+2. The pivot row is normalized.
+3. All other elements in the pivot column are made zero.
+4. This process continues until the matrix is reduced. The solution is then read directly from the last column of the matrix.
+
+Special Cases:
+1. If a row becomes all zeros except the last column, the system has no solution.
+2. If one or more variables do not have a leading one, the system has infinitely many solutions.
+3. If every variable has a leading one, the system has a unique solution.
+
+Advantages:
+1. Directly provides the solution without back substitution.
+2. Systematic and easy to implement.
+3. Can detect no solution or infinite solutions.
+
+Limitations:
+1. Computationally expensive for large systems.
+2. Sensitive to rounding errors.
+3. Not efficient compared to iterative methods for very large matrices.
+
+Best and Worst Use Cases:
+
+Works Best When:
+1. The number of equations is small to moderate
+2. Coefficient matrix is well-conditioned
+
+Works Worst When:
+1. The system is very large.
+2. The matrix is nearly singular.
+3. High precision is required.
+
+Conclusion:
+
+The Gauss–Jordan Method is a powerful direct method for solving systems of linear equations. While simple and reliable, it becomes computationally expensive for large systems and requires careful handling of numerical errors.
 
 #### Gauss Jordan Code
 ```python
-# Add your code here
+#include<bits/stdc++.h>
+#include<fstream>
+using namespace std;
+
+const double E = 1e-9;
+void print(const vector<vector<double>>& a, ofstream &out)
+{
+    int n=a.size();
+    out<<fixed<<setprecision(3);
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<=n;j++)
+        {
+            out<<setw(8)<<a[i][j]<<" ";
+        }
+        out<<endl;
+    }
+    out<<endl;
+}
+
+int main()
+{
+    string inputfile = "InputGaussJordan.txt";
+    string outputfile = "OutputGaussJordan.txt";
+    ifstream in(inputfile);
+    ofstream out(outputfile);
+
+    if(!in)
+    {
+        cout<<"Input file not found"<<endl;
+        return 0;
+    }
+    if(!out)
+    {
+        cout<<"Output file not found"<<endl;
+        return 0;
+    }
+    int n;
+    in>>n;
+    vector<vector<double>> a(n, vector<double>(n + 1));
+
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<=n;j++)
+        {
+            in>>a[i][j];
+        }
+    }
+    out<<"Initial Matrix : "<<endl;
+    print(a, out);
+
+    for(int col=0,row=0;col<n&&row<n;col++)
+    {
+        int pivot = row;
+        for(int i=row;i<n;i++)
+        {
+            if(fabs(a[i][col])>fabs(a[pivot][col]))
+                pivot=i;
+        }
+        if (fabs(a[pivot][col]) < E)
+            continue;
+        swap(a[row],a[pivot]);
+        double div = a[row][col];
+        for(int j=0;j<=n;j++)
+        {
+            a[row][j]/=div;
+        }
+
+        for(int i=0;i<n;i++)
+        {
+            if(i!=row)
+            {
+                double factor = a[i][col];
+                for(int j=0;j<=n;j++)
+                {
+                    a[i][j]-=factor*a[row][j];
+                }
+            }
+        }
+        out<<"After processing column "<<col + 1<<endl;
+        print(a, out);
+        row++;
+    }
+
+    int rA = 0, rAug = 0;
+
+    for(int i=0;i<n;i++)
+    {
+        bool a0 = true;
+        bool aug0 = true;
+        for(int j=0;j<n;j++)
+        {
+            if(fabs(a[i][j])>E)
+            {
+                a0 = false;
+                break;
+            }
+        }
+        if(fabs(a[i][n])>E)
+            aug0 = false;
+        if(!a0)
+            rA++;
+        if(!a0 || !aug0)
+            rAug++;
+    }
+
+    if(rA<rAug)
+    {
+        out<<"Result: No solution"<<endl;
+        return 0;
+    }
+    if(rA<n)
+    {
+        out<<"Result: Infinitely many solutions"<<endl;
+        return 0;
+    }
+    out<<"Result: Unique solution"<<endl;
+    out<<"Solution:"<<endl;
+    for(int i=0;i<n;i++)
+    {
+        out<<"x"<<i + 1<<" = "<<a[i][n]<<endl;
+    }
+    return 0;
+}
+
 ```
 
 #### Gauss Jordan Input
 ```
-[Add your input format here]
+2
+2 1 5
+1 -1 1
+
 ```
 
 #### Gauss Jordan Output
 ```
-[Add your output format here]
+Initial Matrix : 
+   2.000    1.000    5.000 
+   1.000   -1.000    1.000 
+
+After processing column 1
+   1.000    0.500    2.500 
+   0.000   -1.500   -1.500 
+
+After processing column 2
+   1.000    0.000    2.000 
+  -0.000    1.000    1.000 
+
+Result: Unique solution
+Solution:
+x1 = 2.000
+x2 = 1.000
+
 ```
 
 ---
