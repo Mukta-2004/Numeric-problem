@@ -424,12 +424,21 @@ int main()
 
 #### Linear Equation Input
 ```
-[Add your input format here]
+5
+1 2 3 4 5
+2 4 5 4 5
+
 ```
 
 #### Linear Equation Output
 ```
-[Add your output format here]
+Number of data points: 5
+x values:
+1.0000 2.0000 3.0000 4.0000 5.0000 
+y values:
+2.0000 4.0000 5.0000 4.0000 5.0000 
+y = 2.2000 + 0.6000x
+
 ```
 
 ---
