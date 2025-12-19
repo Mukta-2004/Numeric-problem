@@ -301,7 +301,153 @@
 #### Differentiation Output
 ```
 [Add your output format here]
-``` 
+```
+
+---
+
+## Solution of Curve Fitting
+
+### Linear Equation
+
+#### Linear Equation Theory
+[Add your theory content here]
+
+#### Linear Equation Code
+```python
+# Add your code here 
+```
+
+#### Linear Equation Input
+```
+[Add your input format here]
+```
+
+#### Linear Equation Output
+```
+[Add your output format here]
+```
+
+---
+
+### Polynomial Equation
+
+#### Polynomial Equation Theory
+[Add your theory content here]
+
+#### Polynomial Equation Code
+```python
+# Add your code here
+```
+
+#### Polynomial Equation Input
+```
+[Add your input format here]
+```
+
+#### Polynomial Equation Output
+```
+[Add your output format here]
+```
+
+---
+
+### Transcendental Equation
+#### Transcendental Equation Theory
+[Add your theory content here]
+#### Transcendental Equation Code
+```python
+# Add your code here
+```
+#### Transcendental Equation Input
+```
+[Add your input format here]
+```
+#### Transcendental Equation Output
+```
+[Add your output format here]
+```
+### Solution of Interpolation and Approximation
+### Newton's Forward Interpolation
+#### Newton's Forward Interpolation Theory
+[Add your theory content here]
+#### Newton's Forward Interpolation Code
+```python
+#Add your code here
+```
+#### Newton's Forward Interpolation Input
+```
+[Add your input format here]
+```
+#### Newton's Forward Interpolation Output
+```
+[Add your output format here]
+```
+
+### Newton's Backward Interpolation
+#### Newton's Backward Interpolation Theory
+[Add your theory content here]
+#### Newton's Backward Interpolation Code
+```python
+#Add your code here
+```
+#### Newton's Backward Interpolation Input
+```
+[Add your input format here]
+```
+#### Newton's Backward Interpolation Output
+```
+[Add your output format here]
+```
+
+### Newton's Divided Difference Interpolation
+#### Newton's Divided Difference Interpolation Theory
+[Add your theory content here]
+#### Newton's Divided Difference Interpolation Code
+```python
+#Add your code here
+```
+#### Newton's Divided Difference Interpolation Input
+```
+[Add your input format here]
+```
+#### Newton's Divided Difference Interpolation Output
+```
+[Add your output format here]
+```
+
+### Solution of Numerical Integration
+### Simpson's One-Third Rule
+#### Simpson's One-Third Rule Theory
+[Add your theory content here]
+#### Simpson's One-Third Rule Code
+```python
+#Add your code here
+```
+#### Simpson's One-Third Rule Input
+```
+[Add your input format here]
+```
+#### Simpson's One-Third Rule Output
+```
+[Add your output format here]
+```
+### Simpson's Three-Eighth Rule
+#### Simpson's Three-Eighth Rule Theory
+[Add your theory content here]
+#### Simpson's Three-Eighth Rule Code
+```python
+#Add your code here
+```
+#### Simpson's Three-Eighth Rule Input
+```
+[Add your input format here]
+```
+#### Simpson's Three-Eighth Rule Output
+```
+[Add your output format here]
+```
+
+
 
 ---
 
