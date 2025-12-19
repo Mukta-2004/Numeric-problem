@@ -342,7 +342,7 @@ Best and Worst Use Cases:
 Works Best When:
 1. Data follows an approximately linear pattern
 2. Outliers are minimal
-3. 
+   
 Works Worst When:
 1. Data is highly nonlinear
 2. Extreme outliers are present
@@ -353,7 +353,73 @@ Linear Regression is a fundamental numerical technique for modeling linear relat
 
 #### Linear Equation Code
 ```python
-# Add your code here 
+#include<bits/stdc++.h>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+    string ifile = "InputLinear.txt";
+    string ofile = "OutputLinear.txt";
+
+    ifstream in(ifile);
+    if (!in)
+    {
+        cout << "Error opening input file"<<endl;
+        return 1;
+    }
+    int n;
+    in >> n;
+    vector<double> x(n), y(n);
+    for (int i = 0; i < n; i++)
+    {
+        in >> x[i];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        in >> y[i];
+    }
+    in.close();
+    double sumx = 0;
+    double sumy = 0;
+    double sumxy = 0;
+    double sumx2 = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        sumx+= x[i];
+        sumy+= y[i];
+        sumxy+= x[i]*y[i];
+        sumx2+= x[i]*x[i];
+    }
+    double b = (n*sumxy-sumx*sumy)/(n*sumx2-sumx*sumx);
+    double a = (sumy-b*sumx)/n;
+
+    ofstream out(ofile);
+    if (!out)
+    {
+        cout << "Error opening output file"<<endl;
+        return 1;
+    }
+    out << fixed << setprecision(4);
+    out << "Number of data points: " << n <<endl;
+    out << "x values:\n";
+    for (int i = 0; i < n; i++)
+    {
+        out << x[i] << " ";
+    }
+    out <<endl;
+    out << "y values:\n";
+    for (int i = 0; i < n; i++)
+    {
+        out << y[i] << " ";
+    }
+    out << endl;
+    out << "y = " << a << " + " << b << "x"<<endl;
+    out.close();
+    return 0;
+}
+
 ```
 
 #### Linear Equation Input
