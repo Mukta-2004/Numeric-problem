@@ -311,6 +311,7 @@
 
 #### Linear Equation Theory
 Introduction:
+
 Linear Regression is a numerical method used to determine the best fitting straight line between two variables x and y. The relationship is represented by a linear equation:
 
 y = a + b*x
@@ -318,6 +319,7 @@ y = a + b*x
 where a is the intercept and b is the slope of the line.
 
 Working Principle:
+
 The method uses the Least Squares approach to minimize the total squared error between observed data points and estimated values. Given n data points, required sums are calculated from x and y values. The slope and intercept are obtained using:
 
 b = (n*sum(x*y) - sum(x)sum(y)) / (n*sum(x*x) - (sum(x))^2) ; 
@@ -467,18 +469,172 @@ y = 2.2000 + 0.6000x
 
 ### Transcendental Equation
 #### Transcendental Equation Theory
-[Add your theory content here]
+Introduction:
+
+Transcendental Regression is used when the relationship between variables is non-linear but can be converted into a linear form using mathematical transformations. This method applies linear regression after transforming the given data.
+In this program, two models are supported:
+
+Power model: y = a*x^b
+
+Exponential model: p = p0 * e^(k*t)
+
+
+Working Principle:
+
+The given nonlinear equations are converted into linear equations using logarithms.
+
+For the power model: log(y) = log(a) + b * log(x)
+
+For the exponential model: log(p) = log(p0) + k * t
+
+After transformation, the variables become linear and standard least squares linear regression is applied. The slope and intercept are calculated, and the original constants are recovered using exponential functions.
+
+Special Cases:
+1. All y values must be positive because logarithm of zero or negative numbers is undefined.
+2. For the power model, x values must also be positive.
+3. At least two data points are required.
+4. If transformed data is perfectly linear, the regression gives an exact fit.
+
+Advantages:
+1. Allows regression for nonlinear models.
+2. Uses simple linear regression after transformation.
+
+Best and Worst Use Cases:
+
+Works Best When:
+
+1. Data follows power or exponential behavior.
+2. All data values are positive.
+3. Noise in data is minimal.
+   
+Works Worst When:
+
+1. Data contains zero or negative values
+2. Relationship cannot be linearized
+3. Dataset is very small or highly noisy
+
+Conclusion:
+
+Transcendental Regression extends linear regression to nonlinear equations by using transformations. It is effective for power and exponential models but requires careful handling of data values and assumptions.
 #### Transcendental Equation Code
 ```python
-# Add your code here
+#include<bits/stdc++.h>
+#include<fstream>
+using namespace std;
+
+int main()
+{
+    string inputFile = "InputTranscendental.txt";
+    string outputFile = "OutputTranscendental.txt";
+
+    ifstream in("InputTranscendental.txt");
+    if (!in )
+    {
+        cout << "Input file error"<<endl;
+        return 1;
+    }
+
+    int choice, n;
+    in >> choice;// 1-> y = ax^b ; 2-> p = p0*e^(kt)
+    in >> n;
+    vector<double> x(n), y(n);
+    for (int i = 0; i < n; i++)
+    {
+        in >> x[i];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        in >> y[i];
+    }
+    in.close();
+
+    double sx = 0;
+    double sy = 0;
+    double sxx = 0;
+    double sxy = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        double X, Y;
+        Y = log(y[i]);
+        if (choice == 1)
+        {
+            X = log(x[i]);
+        }
+        else if(choice == 2)
+        {
+            X = x[i];
+        }
+        else
+        {
+            cout << "Invalid choice"<<endl;
+        }
+        sx  += X;
+        sy  += Y;
+        sxx += X*X;
+        sxy += X*Y;
+    }
+
+    double b = (n*sxy-sx*sy)/(n*sxx-sx*sx);
+    double A = (sy-b*sx)/n;
+    ofstream out(outputFile);
+    if (!out)
+    {
+        cout << "Output file error"<<endl;
+        return 1;
+    }
+    out << fixed << setprecision(6);
+    out << "Number of data points: " << n <<endl;
+    out << "x values:"<<endl;
+    for (int i = 0; i < n; i++)
+    {
+        out << x[i] << " ";
+    }
+    out <<endl;
+    out << "y values:"<<endl;
+    for (int i = 0; i < n; i++)
+    {
+        out << y[i] << " ";
+    }
+    out<<endl;
+    if (choice == 1)
+    {
+        double a = exp(A);
+        out << "y = " << a << " * x^(" << b << ")"<<endl;
+    }
+    else if (choice == 2)
+    {
+        double p0 = exp(A);
+        double k  = b;
+        out << "p = " << p0 << " * e^(" << k << " t)"<<endl;
+    }
+    else
+    {
+        out << "Invalid choice"<<endl;
+    }
+    out.close();
+    return 0;
+}
+
+
 ```
 #### Transcendental Equation Input
 ```
-[Add your input format here]
+1
+4
+1 2 3 4
+2.7 7.4 20.1 54.6
+
 ```
 #### Transcendental Equation Output
 ```
-[Add your output format here]
+Number of data points: 4
+x values:
+1.000000 2.000000 3.000000 4.000000 
+y values:
+2.700000 7.400000 20.100000 54.600000 
+y = 2.276154 * x^(2.109951)
+
 ```
 ### Solution of Interpolation and Approximation
 ### Newton's Forward Interpolation
