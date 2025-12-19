@@ -361,21 +361,163 @@ x2 = 1.000
 ### Matrix Inversion
 
 #### Matrix Inversion Theory
-[Add your theory content here]
+Introduction:
+
+The Matrix Inversion Method is a numerical technique used to find the inverse of a square matrix. Once the inverse of a matrix is obtained, it can be used to solve a system of linear equations of the form A*X = B by computing
+
+X = inverse(A) * B.
+
+Working Principle:
+
+The method forms an augmented matrix by placing the identity matrix beside the given square matrix. Using elementary row operations, the original matrix is transformed into the identity matrix while applying the same operations to the identity matrix.
+
+Steps involved:
+1.	Start with the augmented matrix [A | I]
+2. Convert matrix A into the identity matrix using row operations
+3. The transformed identity matrix becomes the inverse of A
+4. If at any stage a pivot element becomes zero, the matrix does not have an inverse.
+
+Special Cases:
+1. A matrix with zero determinant is not invertible.
+2. If a pivot element is zero, the inversion process fails.
+3. Only square matrices can have inverses.
+
+Advantages:
+1. Direct method to compute matrix inverse.
+2. Useful for solving multiple systems with the same coefficient matrix.
+
+Limitations:
+1. Computationally expensive for large matrices.
+2. Sensitive to rounding errors.
+3. Not suitable for nearly singular matrices.
+
+Best and Worst Use Cases:
+
+Works Best When:
+1. Matrix size is small to moderate.
+2. Matrix is well-conditioned and non-singular.
+Works Worst When:
+1.Matrix is very large.
+2.Matrix is singular or nearly singular.
+
+Conclusion:
+
+The Matrix Inversion Method is an effective technique for finding the inverse of a matrix and solving linear systems. While straightforward, it becomes inefficient for large matrices and requires careful handling of numerical precision.
 
 #### Matrix Inversion Code
 ```python
-# Add your code here
+#include<bits/stdc++.h>
+#include<fstream>
+using namespace std;
+
+bool inmat(vector<vector<double>>& A, vector<vector<double>>& inv)
+{
+    int n = A.size();
+    inv.assign(n,vector<double>(n, 0));
+    for(int i=0; i<n; i++)
+    {
+        inv[i][i]=1;
+    }
+    for(int i=0; i<n; i++)
+    {
+        double pivot=A[i][i];
+        if(pivot==0)
+        {
+            return false;
+        }
+        for(int j=0;j<n;j++)
+        {
+            A[i][j]/=pivot;
+            inv[i][j]/=pivot;
+        }
+        for(int k=0;k<n;k++)
+        {
+            if(k!=i)
+            {
+                double factor=A[k][i];
+                for(int j=0;j<n;j++)
+                {
+                    A[k][j]-=factor*A[i][j];
+                    inv[k][j]-=factor*inv[i][j];
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+int main()
+{
+    string inputfile = "InputMatrixInverse.txt";
+    string outputfile = "OutputMatrixInverse.txt";
+    ifstream in(inputfile);
+    if (!in)
+    {
+        cout << "Input file error" << endl;
+        return 1;
+    }
+
+    int n;
+    in>>n;
+    vector<vector<double>> mat(n,vector<double>(n));
+    for (int i=0;i<n;i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            in>>mat[i][j];
+        }
+    }
+    in.close();
+
+    ofstream out(outputfile);
+    if (!out)
+    {
+        cout<<"Output file error"<<endl;
+        return 1;
+    }
+    vector<vector<double>> inv;
+
+    if (!inmat(mat, inv))
+    {
+        out<<"Matrix is not invertible"<<endl;
+    }
+    else
+    {
+        out<<"Inverse Matrix : "<<endl;
+        out<<fixed<<setprecision(6);
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                out<<inv[i][j]<<" ";
+            }
+            out<<endl;
+        }
+    }
+    out.close();
+    return 0;
+}
+
+
 ```
 
 #### Matrix Inversion Input
 ```
-[Add your input format here]
+3
+2 1 1
+1 3 2
+1 0 0
+
 ```
 
 #### Matrix Inversion Output
 ```
-[Add your output format here]
+Inverse Matrix : 
+0.000000 0.000000 1.000000 
+-2.000000 1.000000 3.000000 
+3.000000 -1.000000 -5.000000 
+
 ```
 
 ---
