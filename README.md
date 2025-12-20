@@ -992,18 +992,216 @@ Approximate Root = -0.894703
 
 ### Differentiation Method
 #### Differentiation Theory
-[Add your theory content here]
+Numerical differentiation is a technique used to approximate the derivative of a function using discrete data points. In many real-life and engineering problems, the exact mathematical expression of a function may not be available. Instead, the function is known only through experimental observations or tabulated values at equally spaced intervals. In such situations, numerical methods are essential for estimating derivatives.
+
+Newton’s interpolation formulas provide an efficient way to approximate derivatives from tabulated data. By constructing an interpolation polynomial using known data points and then differentiating it, numerical values of derivatives can be obtained. Depending on the location of the point at which the derivative is required, either Newton’s Forward Interpolation Formula or Newton’s Backward Interpolation Formula is applied.
+
+Newton’s Forward Formula is used when the required derivative lies near the beginning of the data table.
+
+Newton’s Backward Formula is used when the derivative is required near the end of the data table.
+
+These methods rely on finite difference tables and are widely used due to their simplicity and effectiveness.
+
+Newton’s Forward Difference Formula for Derivative:
+
+When the derivative is required near the beginning of the table:
+
+dy/dx=1/h[Δy0− 1/2Δ2y0+ 1/3Δ3y0−⋯]
+
+ Newton’s Backward Difference Formula for Derivative:
+
+When the derivative is required near the end of the table:
+
+dy/dx= 1/h[∇yn +1/2∇2yn+ 1/3∇3yn+⋯ ]
+
+Procedure (Step-by-Step)
+1.	Collect Data Obtain function values y0,y1,…,yn at equally spaced points x0,x1,…,xn.
+Calculate the step size:
+ℎ= x1-x0
+2. Construct Difference Table
+3. Compute u
+4. Apply Newton’s Formula for First Derivative
+5. Compute the Derivative. Substitute values from the difference table into the formula. Perform the arithmetic carefully to get the approximate derivative at the required point.
+
+Error:
+   Relative error is a measure of how large the error is in comparison to the true value. It tells us how significant the error is relative to the size of the quantity being measured.
+
+-> It is dimensionless, meaning it does not depend on the units of measurement.
+-> Often expressed as a fraction or percentage.
+ 
+     Relative error = |True value - Approximate value| / True value .
+
+ Applications:
+
+1.Engineering Applications:
+Used to calculate velocity, acceleration, and rate of change of physical quantities from measured data.
+
+2.Physics and Mechanics:
+Applied in motion analysis, heat transfer, and fluid flow problems where data is experimental.
+
+3.Experimental and Scientific Data Analysis:
+Useful when data is obtained from experiments and an analytical function is unavailable.
+
+4.Economics and Statistics:
+Used to estimate growth rates, marginal cost, and trend analysis from tabulated data.
+
+5.Computer Science and Numerical Simulations:
+Applied in numerical modeling and simulations requiring derivative approximations.
+
+
 #### Differentiation Code
-```python
-# Add your code here
+```cpp
+#include <iostream>
+#include<bits/stdc++.h>
+#include<fstream>
+
+using namespace std;
+
+void BackWard(int n,vector<double>&x, vector<double>&y, double X,double result ,vector<vector<double>>&F,ifstream &in, ofstream &out )
+{
+    //difference table calculation
+
+    for(int j=1;j<n;j++)
+    {
+        for(int i=n-1;i>=j;i--)
+            F[i][j]=F[i][j-1]-F[i-1][j-1];
+    }
+
+out<<"Difference table:\n";
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+            out<<F[i][j]<<"   ";
+        out<<endl;
+    }
+
+    double h= x[1]-x[0];
+    double v=(X-x[n-1])/h;
+
+result= (1/h)*(F[n-1][1]+ ((2*v+1)/2)*F[n-1][2] + ((3*v*v + 6*v +2)/6)*F[n-1][3] + (4*(pow(v,3)+ 18*pow(v,2) + 22*v+6)/24)*F[n-1][4] + (5*(pow(v,4) + 40*pow(v,3) + 105*pow(v,2) +100*pow(v,1) + 24)/120));
+
+
+
+    out<<"Backward_result: "<<result<<endl;
+}
+
+
+void ForWard(int n,vector<double>&x, vector<double>&y, double X,double result, vector<vector<double>>&F,ifstream &in, ofstream &out )
+{
+
+
+    //difference table calculation
+
+    for(int j=1;j<n;j++)
+    {
+        for(int i=0;i<n-j;i++)
+            F[i][j]=F[i+1][j-1]-F[i][j-1];
+    }
+out<<"Difference table:\n";
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+            out<<F[i][j]<<"   ";
+        out<<endl;
+    }
+
+    double h= x[1]-x[0];
+    double u=(X-x[0])/h;
+
+   /* for(int i=0;i<n;i++)
+    {
+        double key=1;
+        for(int j=0;j<i;j++)
+        {
+            key*=(u-j)/(j+1);
+        }
+
+        result+=key*F[0][i];
+    }*/
+result= (1/h)*(F[0][1]+ ((2*u -1)/2)*F[0][2] + ((3*u*u - 6*u +2)/6)*F[0][3] + (4*(pow(u,3)- 18*pow(u,2) + 22*pow(u,1)- 6)/24)*F[0][4] + (5*(pow(u,4) - 40*pow(u,3) + 105*pow(u,2) -100*pow(u,1) + 24)/120));
+
+
+    out<<"Forward_result: "<<result<<endl;
+}
+int main()
+{
+    string inputFile="Diff_input.txt";
+    string outputFile="Diff_output.txt";
+
+    ifstream in(inputFile);
+    if(!in)
+    {
+        cout<<"Input file error!"<<endl;
+        return 1;
+    }
+
+    ofstream out(outputFile);
+    if(!out)
+    {
+         cout<<"Output file error!"<<endl;
+        return 1;
+    }
+
+    int n;
+    in>>n;
+    vector<double>x(n);
+    vector<double>y(n);
+
+    for(int i=0;i<n;i++)
+        in>>x[i];
+
+    double diff=x[1]-x[0];
+
+    for(int i=2;i<n;i++)
+    {
+        if((x[i]-x[i-1])!= diff)
+           {
+               out<<"Difference are not equal\n";
+               return 0;
+           }
+    }
+
+    for(int i=0;i<n;i++)
+        in>>y[i];
+
+
+    vector<vector<double>>F(n,vector<double>(n,0));
+
+    for(int i=0;i<n;i++)
+        F[i][0]=y[i];
+
+         double result=0;
+    double X;
+    in>>X;
+
+    if(X<(x[0]+x[n-1])/2)
+        ForWard(n,x,y,X,result,F,in,out);
+    else
+        BackWard(n,x,y,X,result,F,in,out);
+
+in.close();
+out.close();
+    return 0;
+}
+
 ```
 #### Differentiation Input
 ```
-[Add your input format here]
+4
+1 3 5 7
+3 5 7 9
+8
+
 ```
 #### Differentiation Output
 ```
-[Add your output format here]
+Difference table:
+3   0   0   0   
+5   2   0   0   
+7   2   0   0   
+9   2   0   0   
+Backward_result: 3.19401
+
 ```
 
 ---
