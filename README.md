@@ -1888,34 +1888,310 @@ Result:  6.125
 
 ### Newton's Backward Interpolation
 #### Newton's Backward Interpolation Theory
-[Add your theory content here]
+
+Newton’s Backward Interpolation method is a numerical technique used when the data points are equally spaced and the required value lies near the end of the data table. Similar to forward interpolation, this method is based on finite differences; however, it uses backward differences, which consider changes in function values in the reverse direction.
+
+This method is particularly useful when interpolation is required close to the last given data point, where forward differences may lead to reduced accuracy. By constructing a backward difference table and applying Newton’s backward interpolation polynomial, accurate estimates of function values can be obtained near the end of the interval. Newton’s backward interpolation is commonly used in engineering and scientific computations involving tabulated data.
+
+Step-by-Step Procedure
+Step 1: Arrange the Data
+
+Write the x-values in ascending order.
+
+Write corresponding y-values.
+
+Step 2: Verify Equal Spacing
+
+Ensure: x1−x0=x2−x1=h
+
+Step 3: Construct the Backward Difference Table
+
+Compute first backward differences:
+∇𝑦𝑛=𝑦𝑛−𝑦𝑛−1     ∇yn=yn−yn−1
+	​
+Compute second backward differences:
+∇𝑦𝑛=∇𝑦𝑛−∇𝑦𝑛−1       ∇2yn=∇yn−∇yn−1  Continue for higher-order differences.
+
+Step 4: Compute the Parameter : 
+v Identify the value of x where interpolation is required.
+
+Calculate:vu=(x−xn)/h	​
+
+Step 5: Write the Newton Backward Formula
+y=yn+ v∇yn+ 1/2!v(v+1)∇2yn+ 1/3!v(v+1)(v+2)∇3yn+⋯
+
+Step 6: Substitute and Calculate:
+
+Substitute the values of u and backward differences.
+
+Evaluate term by term.Obtain the required interpolated value.
 #### Newton's Backward Interpolation Code
-```python
-#Add your code here
+```cpp
+#include <iostream>
+#include<bits/stdc++.h>
+#include<fstream>
+
+using namespace std;
+
+int main()
+{
+     string inputFile="Backward_input.txt";
+    string outputFile="Backward_output.txt";
+
+    ifstream in(inputFile);
+    if(!in)
+    {
+        cout<<"Input file error!"<<endl;
+        return 1;
+    }
+
+    ofstream out(outputFile);
+    if(!out)
+    {
+         cout<<"Output file error!"<<endl;
+        return 1;
+    }
+
+    int n;
+    //"How many numbers:";
+    in>>n;
+    vector<double>x(n);
+    vector<double>y(n);
+
+ //"value for x: ";
+    for(int i=0;i<n;i++)
+        in>>x[i];
+
+    double diff=x[1]-x[0];
+
+    for(int i=2;i<n;i++)
+    {
+        if((x[i]-x[i-1])!= diff)
+           {
+               out<<"Difference are not equal\n";
+               return 0;
+           }
+    }
+
+    //"value for y: ";
+    for(int i=0;i<n;i++)
+        in>>y[i];
+
+
+    vector<vector<double>>F(n,vector<double>(n,0));
+
+    for(int i=0;i<n;i++)
+        F[i][0]=y[i];
+
+    //difference table calculation
+
+    for(int j=1;j<n;j++)
+    {
+        for(int i=n-1;i>=j;i--)
+            F[i][j]=F[i][j-1]-F[i-1][j-1];
+    }
+
+    out<<"Difference table:\n";
+
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+            out<<F[i][j]<<"   ";
+        out<<endl;
+    }
+
+
+    double result=0;
+    double X;
+    //"Give a value of x: ";
+    in>>X;
+    double h= x[1]-x[0];
+    double v=(X-x[n-1])/h;
+
+    for(int i=0;i<n;i++)
+    {
+        double key=1;
+        for(int j=0;j<i;j++)
+        {
+            key*=(v+j)/(j+1);
+        }
+
+        result+=key*F[n-1][i];
+    }
+
+    out<<"\nResult:  "<<result<<endl;
+    in.close();
+out.close();
+
+    return 0;
+}
+
 ```
 #### Newton's Backward Interpolation Input
 ```
-[Add your input format here]
+4
+1 3 5 7
+4 7 9 20
+6
+
 ```
 #### Newton's Backward Interpolation Output
 ```
-[Add your output format here]
+Difference table:
+4   0   0   0   
+7   3   0   0   
+9   2   -1   0   
+20   11   9   10   
+
+Result:  12.75
+
 ```
 
 ### Newton's Divided Difference Interpolation
 #### Newton's Divided Difference Interpolation Theory
-[Add your theory content here]
+
+Newton’s Divided Difference Interpolation method is used when the given data points are not equally spaced. In many real-world applications, measurements are taken at irregular intervals due to experimental constraints, making finite difference methods unsuitable. Divided difference interpolation overcomes this limitation by using differences that depend directly on the spacing between data points.
+
+This method constructs an interpolation polynomial using divided differences, which are calculated based on the ratio of differences in function values to differences in independent variable values. A major advantage of this method is its flexibility—it can be applied to both equal and unequal interval data. Additionally, new data points can be added without recalculating the entire interpolation polynomial, making it efficient and adaptable for practical data analysis.
+
+Step-by-Step Procedure
+
+Step 1: Arrange the Data
+
+Write the given data points in ascending order of x:(x0,y0),(x1,y1),…,(xn,yn)
+
+Step 2: Construct the Divided Difference Table
+
+Compute first divided differences:
+
+𝑓[𝑥0,𝑥]=𝑦1−𝑦0/𝑥1−𝑥0
+	
+Compute second divided differences:
+
+𝑓[𝑥0,𝑥1,𝑥2]=𝑓[𝑥1,𝑥2]−𝑓[𝑥0,𝑥1]/𝑥2−𝑥0
+	​Continue until all divided differences are obtained.
+
+Record values in tabular form.
+
+Step 3: Write the Newton Divided Difference Formula
+
+  y=y0+(x−x0)f[x0,x1]+(x−x0)(x−x1)f[x0,x1,x2]+⋯
+  
+Step 4: Substitute the Required Value of 𝑥
+
+Replace x with the given interpolation point.
+
+Substitute the divided difference values.
+
+Step 5: Perform Calculations
+
+Multiply terms carefully in sequence. Stop when sufficient accuracy is achieved. Obtain the interpolated value.
+
 #### Newton's Divided Difference Interpolation Code
-```python
-#Add your code here
+```cpp
+#include <iostream>
+#include<bits/stdc++.h>
+#include<fstream>
+
+using namespace std;
+
+int main()
+{
+    string inputFile="Forward_unequal_input.txt";
+    string outputFile="Forward_unequal_output.txt";
+
+    ifstream in(inputFile);
+    if(!in)
+    {
+        cout<<"Input file error!"<<endl;
+        return 1;
+    }
+
+    ofstream out(outputFile);
+    if(!out)
+    {
+         cout<<"Output file error!"<<endl;
+        return 1;
+    }
+    int n;
+    //"How many numbers:";
+    in>>n;
+    vector<double>x(n);
+    vector<double>y(n);
+
+  //"value for x: ";
+    for(int i=0;i<n;i++)
+        in>>x[i];
+
+   //"value for y: ";
+    for(int i=0;i<n;i++)
+        in>>y[i];
+
+    vector<vector<double>>F(n,vector<double>(n,0));
+
+    for(int i=0;i<n;i++)
+        F[i][0]=y[i];
+
+    //difference table calculation
+
+    for(int j=1;j<n;j++)
+    {
+        for(int i=0;i<n-j;i++)
+            F[i][j]=(F[i+1][j-1]-F[i][j-1])/(x[i+j]-x[i]);
+    }
+
+    out<<"Difference table:\n";
+
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+            out<<F[i][j]<<"   ";
+        out<<endl;
+    }
+
+
+    double result=0;
+    double X;
+ //"Give a value of x: ";
+    in>>X;
+
+    for(int i=0;i<n;i++)
+    {
+        double key=1;
+        for(int j=0;j<i;j++)
+        {
+            key*=(X-x[j]);
+        }
+
+        result+=key*F[0][i];
+    }
+
+    out<<"\nResult:  "<<result<<endl;
+     in.close();
+out.close();
+
+    return 0;
+}
+
 ```
 #### Newton's Divided Difference Interpolation Input
 ```
-[Add your input format here]
+4
+3 5 9 14
+5 8 12 20
+4
+
 ```
 #### Newton's Divided Difference Interpolation Output
 ```
-[Add your output format here]
+Difference table:
+5   1.5   -0.0833333   0.0136364   
+8   1   0.0666667   0   
+12   1.6   0   0   
+20   0   0   0   
+
+Result:  6.65152
+
 ```
 
 ### Solution of Numerical Integration
