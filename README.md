@@ -110,21 +110,134 @@
 ### Gauss Elimination Method
 
 #### Gauss Elimination Theory
-[Add your theory content here]
+Gauss Elimination Method
+
+The Gauss elimination method is a fundamental numerical technique used to solve systems of linear equations. It converts a system into an upper triangular form and then solves it using back substitution, simplifying the solution process. This method is applicable to square and rectangular systems and forms the basis for many advanced numerical methods in linear algebra.
+
+Problem Definition
+We aim to solve a system of linear equations in matrix form:
+
+𝐴𝑥=𝑏
+
+where A is the coefficient matrix, x is the vector of unknowns, and b is the constants vector.
+The method proceeds in two main phases:
+
+1. Forward Elimination Phase:
+
+In this phase, the augmented matrix [A∣b] is transformed into an upper triangular matrix. This is done by eliminating the entries below the diagonal in each column using the following steps:
+Select a pivot element in the current column.
+Use the pivot to eliminate all entries below it, replacing each row with a combination of itself and the pivot row.
+Repeat the process for all columns until the augmented matrix has zeros below the diagonal.
+The result is an upper triangular matrix, where the system of equations can be solved more easily.
+
+3. Back Substitution Phase:
+   
+Once the system is in upper triangular form, the values of the unknowns are determined starting from the last row upwards:
+Solve the last equation for the last unknown.
+Substitute this value into the above equations to solve for other unknowns iteratively.
+Continue this process until all unknowns are computed.
+This phase uses simple algebraic substitution and is straightforward once the matrix is triangular.
+
+Applications
+1. Solving linear algebraic systems in engineering and physics.
+2. Finding solutions for structural analysis, electrical circuits, and mechanics problems.
+3. Forms the foundation for more advanced methods like LU decomposition and matrix inversion.
+
+
+Advantages:
+
+1. Conceptually simple and easy to implement.
+2. Systematic approach that works for most non-singular systems.
+3. Forms a foundation for more advanced numerical methods.
+
+Disadvantages:
+
+1. Computationally expensive for large systems (O(n³) complexity).
+2. Can suffer from round-off errors in floating-point arithmetic.
+3. Requires row swaps (partial pivoting) to avoid division by zero or improve numerical stability.
+
+
+
 
 #### Gauss Elimination Code
-```python
-# Add your code here
+```cpp
+#include <bits/stdc++.h>
+#include<fstream>
+using namespace std;
+
+int main(){
+  string inputFile = "Gauss Elimination input.txt";
+    string outputFile ="Gauss Elimination output.txt";
+    ifstream in(inputFile);
+
+if(!in){
+    cout<<" Input file error"<<endl;
+    return 1;
+}
+
+int n;
+in >> n;
+vector<vector<double>> a(n, vector<double>(n + 1));
+vector<double> x(n);
+ for (int i = 0; i < n; i++){
+    for (int j = 0; j <= n; j++){
+            in >> a[i][j];
+    }
+ }
+ in.close();
+ofstream out(outputFile);
+ if(!out){
+    cout<<" Output file error"<<endl;
+    return 1;
+}
+out << "Number of unknowns: "<<n << endl;
+for (int i = 0; i < n; i++){
+  if (a[i][i] == 0){
+    out << "Mathematical Error" << endl;
+    return 0;
+  }
+  for (int j = i + 1; j < n; j++){
+    double rtio = (a[j][i] / a[i][i]);
+    for (int k = 0; k <= n; k++){
+         a[j][k] = a[j][k] - (rtio * a[i][k]);
+    }
+  }
+}
+
+ for (int i = n - 1; i >= 0; i--){
+    x[i] = a[i][n];
+    for (int j = i + 1; j < n; j++){
+            x[i] = x[i] - a[i][j] * x[j];
+    }
+        x[i] = x[i] / a[i][i];
+ }
+
+out << "Solution:" << endl;
+for (int i = 0; i < n; i++){
+        out << "x" << i + 1 << " = "<< fixed << setprecision(6) << x[i] << endl;
+}
+
+out.close();
+return 0;
+}
+
 ```
 
 #### Gauss Elimination Input
 ```
-[Add your input format here]
+2
+3 2 16
+4 -1 9
+
 ```
 
 #### Gauss Elimination Output
 ```
-[Add your output format here]
+Number of unknowns: 2
+Solution:
+x1 = 3.090909
+x2 = 3.363636
+
 ```
 
 ---
@@ -177,7 +290,7 @@ Conclusion:
 The Gauss–Jordan Method is a powerful direct method for solving systems of linear equations. While simple and reliable, it becomes computationally expensive for large systems and requires careful handling of numerical errors.
 
 #### Gauss Jordan Code
-```python
+```cpp
 #include<bits/stdc++.h>
 #include<fstream>
 using namespace std;
