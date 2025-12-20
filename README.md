@@ -796,21 +796,131 @@ Inverse Matrix :
 ### Bisection Method
 
 #### Bisection Theory
-[Add your theory content here]
+ Bisection Method
+ 
+The Bisection Method is a numerical technique used to find roots of real-valued continuous functions. It is also called the binary chopping or half-interval method. The method is based on the Intermediate Value Theorem, which states that if a continuous function (f(x)) changes sign over an interval ([a, b]) (i.e., (f(a). f(b) < 0)), then there exists at least one root of (f(x) = 0) in that interval.
+
+Problem Definition:
+
+Given a function (f(x)) that is continuous in the interval ([a, b]) and satisfies (f(a).f(b) < 0), the goal is to find a root (x0) such that (f(x0) = 0).
+The method proceeds iteratively by repeatedly halving the interval until the root is approximated within a desired tolerance.
+
+Algorithm:
+
+Choose the initial interval ([x1, x2]) such that (f(x1) . f(x2) < 0). Define the tolerance (E).
+Compute the midpoint:
+
+             x0 = {(x1 + x2)/2}
+
+
+Evaluate (f(x0)) and check the following conditions:
+If (f(x0) = 0), then (x_0) is the root.
+If (f(x0). f(x1) < 0), then the root lies in ([x1, x0]) and set (x2 = x0).
+If (f(x0). f(x2) < 0), then the root lies in ([x0, x2]) and set (x1 = x0).
+Repeat Steps 2–3 until the interval is sufficiently small, satisfying:
+
+                 |  {(x2 - x1)/ x2} | < E
+
+
+
+Applications:
+
+1. Solving nonlinear equations where the function is continuous and changes sign.
+2. Situations where other iterative methods (like Newton-Raphson) may fail or derivative is difficult to compute.
+3. Useful in engineering, physics, and computational simulations for guaranteed root-finding.
+
+Advantages:
+
+1. Simple and easy to implement.
+2. Always converges if the function is continuous and the initial interval is valid.
+3. No derivative is required, unlike Newton-Raphson or Secant methods.
+   
+Disadvantages:
+
+1. Converges slowly compared to other iterative methods.
+2. Requires the function to change sign over the interval; cannot detect multiple roots in the same interval.
+3. Not suitable for functions that are not continuous.
+
 
 #### Bisection Code
-```python
-# Add your code here
+```cpp
+#include <bits/stdc++.h>
+#include <fstream>
+using namespace std;
+
+double f(double x){
+    //f(x)=x^3-x-2
+    return x * x * x - x - 2;
+}
+
+int main(){
+    string inputFile = "Bisection input.txt";
+    string outputFile ="Bisection output.txt";
+    ifstream in (inputFile);
+
+    if(!in){
+        cout<<" Input file error"<<endl;
+        return 1;
+    }
+double a, b, c, eps;
+int maxIter;
+
+in >> a;
+in >> b;
+in >> eps;
+in >> maxIter;
+in.close();
+ofstream out(outputFile);
+if(!out){
+    cout<<"Output file error"<<endl;
+    return 1;
+}
+out << "Lower bound a: " <<a<< endl;
+out << "Upper bound b: " <<b<<endl;
+out << "Tolerance: " <<eps<< endl;
+out << "Maximum iterations: " <<maxIter<< endl;
+
+if (f(a) * f(b) >= 0){
+    out << "Invalid interval" << endl;
+    return 0;
+}
+for (int i = 1; i <= maxIter; i++){
+    c = (a + b) / 2;
+    if (fabs(f(c)) < eps || fabs(b - a) < eps){
+        out << "Root = " << fixed << setprecision(6) << c << endl;
+        return 0;
+    }
+    if (f(a) * f(c) < 0){
+        b = c;
+    }
+    else{
+        a = c;
+    }
+}
+out << "Root after iterations = "<< fixed << setprecision(6) << c << endl;
+out.close();
+return 0;
+}
+
 ```
 
 #### Bisection Input
 ```
-[Add your input format here]
+1
+2
+0.0001
+20
+
 ```
 
 #### Bisection Output
 ```
-[Add your output format here]
+Lower bound a: 1
+Upper bound b: 2
+Tolerance: 0.0001
+Maximum iterations: 20
+Root = 1.521393
+
 ```
 
 ---
