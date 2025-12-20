@@ -1225,18 +1225,135 @@ Approximate Root = -0.894703
 
 ### Newton Raphson Method
 #### Newton Raphson Theory
-[Add your theory content here]
+ Newton–Raphson Method
+ 
+The Newton–Raphson method is a widely used iterative technique to find roots of real-valued functions. It is applicable when the function (f(x)) is continuous and differentiable, and we seek solutions of the equation:
+
+f(x) = 0
+
+The method starts with an initial guess (x_0) for the root and iteratively refines this approximation using the formula:
+
+x{n+1} = xn - {f(xn)}/{f'(xn)}
+
+
+Here, (f'(x_n)) is the derivative of the function evaluated at (x_n). The iteration continues until the difference between successive approximations becomes smaller than a chosen tolerance, indicating convergence to the root.
+
+Algorithm:
+
+1. Compute the derivative (f'(x_n)) of the function.
+2. Choose an initial guess (x_0) close to the expected root.
+3. Evaluate the next approximation using:
+x_{n+1} = x_n - {f(x_n)/f'(x_n)}
+
+
+4. Check the stopping criterion: if (|x_{n+1} - x_n| < E) (tolerance), then (x_{n+1}) is accepted as the root. Otherwise, set (x_n = x_{n+1}) and repeat the iteration.
+
+Conditions for Convergence:
+
+1. The function (f(x)) must be continuous and differentiable in the neighborhood of the root.
+2. The derivative (f'(x)) should not be zero near the root.
+3. The initial guess (x_0) should be sufficiently close to the actual root to ensure convergence.
+
+Applications:
+
+1. Solving nonlinear algebraic equations in mathematics, physics, and engineering.
+2. Root-finding in mechanical and electrical systems, such as equilibrium points or circuit analysis.
+3. Computational simulations where analytical solutions are difficult or unavailable.
+
+Advantages:
+
+Converges rapidly when the initial guess is close to the root (quadratic convergence).
+Simple formula and easy to implement for functions with known derivatives.
+Efficient for single-variable equations.
+
+Disadvantages:
+
+May fail to converge if the derivative is zero or the initial guess is far from the root.
+Can converge to a wrong root if the function has multiple roots.
+Requires computation of the derivative, which may not be simple for complex functions.
+
 #### Newton Raphson Code
-```python
-# Add your code here
+```cpp
+#include <bits/stdc++.h>
+#include<fstream>
+using namespace std;
+
+double f(double x){
+    //f(x)=x^4-5x^2+4
+    return x * x * x * x - 5 * x * x + 4;
+}
+
+double df(double x)
+{
+    return 4 * x * x * x - 10 * x;
+}
+
+
+int main(){
+    string inputFile = "Newton Raphson input.txt";
+    string outputFile ="Newton Raphson output.txt";
+    ifstream in (inputFile);
+
+    if(!in){
+        cout<<" Input file error"<<endl;
+        return 1;
+    }
+double x0, x1, eps;
+int maxIter;
+
+if (!(in >> x0 >> eps >> maxIter)) {
+    cout << "Input format error" << endl;
+    return 1;
+}
+
+in.close();
+ofstream out(outputFile);
+ if(!out){
+        cout<<" Output file error"<<endl;
+        return 1;
+    }
+
+out << "Initial guess: " <<x0<<endl;
+out << "Tolerance: " <<eps<< endl;
+out << "Maximum iterations: " <<maxIter<< endl;
+out << endl;
+for (int i = 1; i <= maxIter; i++){
+    if (df(x0) == 0){
+        out << "Mathematical Error" << endl;
+        return 0;
+    }
+
+    x1 = x0 - f(x0) / df(x0);
+    if (fabs(x1 - x0) < eps){
+        out << endl;
+        out << "Root = " << x1 << endl;
+        return 0;
+    }
+    x0 = x1;
+}
+out << endl;
+out << "Root after iterations = " << x1 << endl;
+out.close();
+return 0;
+}
+
 ```
 #### Newton Raphson Input
 ```
-[Add your input format here]
+3
+0.0001
+10
+
 ```
 #### Newton Raphson Output
 ```
-[Add your output format here]
+Initial guess: 3
+Tolerance: 0.0001
+Maximum iterations: 10
+
+
+Root = 2
+
 ```
 
 ### Solution of Differential Equations and Differentiation
