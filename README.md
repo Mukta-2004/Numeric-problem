@@ -1151,21 +1151,203 @@ y = 2.2000 + 0.6000x
 ### Polynomial Equation
 
 #### Polynomial Equation Theory
-[Add your theory content here]
+Polynomial curve fitting regression is a statistical technique used to model non-linear relationships between a dependent variable y and an independent variable x. Unlike linear regression, which assumes a constant rate of change, polynomial regression allows the rate of change to vary with 𝑥 by including higher powers of x.
+
+The degree of the polynomial determines the complexity of the curve. A first-degree polynomial represents a straight line, a second-degree polynomial represents a parabolic curve, and higher-degree polynomials can model more complex trends. The primary objective of polynomial regression is to find a polynomial equation that best approximates the given data points by minimizing the overall error.
+
+Polynomial regression is widely used in engineering, physics, economics, and data modeling for trend analysis, prediction, and interpolation where linear models are insufficient.
+
+Procedure of Polynomial Regression:
+
+Step 1: Data Collection: 
+
+Collect the experimental or observed data points: (x1,y1),(x2,y2),…,(xm,ym). These data points represent the independent variable x and the corresponding dependent variable y.
+
+Step 2: Selection of Polynomial Degree :
+
+Choose the degree 𝑛 of the polynomial based on the behavior of the data. The assumed regression model is: y=a0+a1x1+a2x2+⋯+anxn
+The choice of n is crucial, as a polynomial of too low a degree may fail to capture the trend, while a polynomial of too high a degree may lead to overfitting.
+
+Step 3: Application of Least Squares Method
+
+To determine the coefficients a0,a1,…,an, the least squares method is employed. This method minimizes the sum of the squares of the residuals (errors) between the observed values 𝑦𝑖 and the predicted values y^i.
+
+The error function is defined as: S=i=1∑m(yi−y^i)2
+
+Step 4: Formation of Normal Equations
+
+Differentiate the error function 𝑆 with respect to each coefficient a0,a1,…,an and equate the derivatives to zero. This results in a system of n+1 normal equations.
+
+Step 5: Solution of Normal Equations
+
+Solve the system of normal equations using suitable techniques such as substitution, matrix methods, or Gaussian elimination to obtain the values of the coefficients.
+
+Step 6: Construction of Regression Polynomial
+
+Substitute the computed coefficients into the polynomial equation to obtain the final regression model. This polynomial can be used to estimate or predict values of 𝑦 for given values of x within or slightly beyond the range of the data.
+
+Advantages
+
+1.Can model non-linear relationships effectively
+
+2.Flexible and adaptable to various data trends
+
+3.Useful for interpolation and prediction
+
+Limitations
+
+1.High-degree polynomials may lead to overfitting
+
+2.Poor extrapolation outside the data range
+
+3.Sensitive to outliers
+
+
+Applications
+
+1.Engineering Analysis – Modeling stress–strain relationships and system behavior
+
+2.Physics – Curve fitting of experimental data
+
+3.Economics – Trend analysis and forecasting
+
+4.Data Science – Pattern recognition and predictive modeling
+
+5.Scientific Research – Empirical data approximation
 
 #### Polynomial Equation Code
-```python
-# Add your code here
+```cpp
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include<fstream>
+using namespace std;
+
+vector<double> gaussElimination(vector<vector<double>> A, vector<double> B, ifstream & in, ofstream &out)
+{
+    int n = B.size();
+
+    for(int i=0;i<n;i++)
+    {
+        if(fabs(A[i][i]) < 1e-9)
+        {
+            for(int k=i+1;k<n;k++)
+            {
+                if(fabs(A[k][i]) > 1e-9)
+                {
+                    swap(A[i], A[k]);
+                    swap(B[i], B[k]);
+                    break;
+                }
+            }
+        }
+
+        for(int k=i+1;k<n;k++)
+        {
+            double factor = A[k][i] / A[i][i];
+            for(int j=i;j<n;j++)
+                A[k][j] -= factor * A[i][j];
+
+            B[k] -= factor * B[i];
+        }
+    }
+
+    vector<double> X(n);
+    for(int i=n-1;i>=0;i--)
+    {
+        X[i] = B[i];
+        for(int j=i+1;j<n;j++)
+            X[i] -= A[i][j] * X[j];
+
+        X[i] /= A[i][i];
+    }
+
+    return X;
+}
+
+int main()
+{
+    string inputFile="Polynomial_input.txt";
+    string outputFile="Polynomial_output.txt";
+
+    ifstream in(inputFile);
+    if(!in)
+    {
+        cout<<"Input file error!"<<endl;
+        return 1;
+    }
+
+    ofstream out(outputFile);
+    if(!out)
+    {
+         cout<<"Output file error!"<<endl;
+        return 1;
+    }
+    int n, degree;
+   // "Enter number of data points: ";
+    in >> n;
+
+    vector<double> x(n), y(n);
+
+ //"Enter x values:\n";
+    for(int i=0;i<n;i++)
+        in >> x[i];
+
+// "Enter y values:\n";
+    for(int i=0;i<n;i++)
+        in >> y[i];
+
+    // "Enter degree of polynomial: ";
+    in >> degree;
+
+    int m = degree;
+    vector<vector<double>> A(m+1, vector<double>(m+1));
+    vector<double> B(m+1);
+
+    for(int i=0;i<=m;i++)
+    {
+        for(int j=0;j<=m;j++)
+        {
+            A[i][j] = 0;
+            for(int k=0;k<n;k++)
+                A[i][j] += pow(x[k], i+j);
+        }
+
+        B[i] = 0;
+        for(int k=0;k<n;k++)
+            B[i] += pow(x[k], i) * y[k];
+    }
+
+    vector<double> coeff = gaussElimination(A, B,in,out);
+
+ out<<"Fitted Polynomial:\n";
+    out << "y = ";
+    for(int i=0;i<=m;i++)
+    {
+        out << coeff[i];
+        if(i > 0) out << "x^" << i;
+        if(i != m) out << " + ";
+    }
+    out << endl;
+   in.close();
+out.close();
+    return 0;
+}
+
 ```
 
 #### Polynomial Equation Input
 ```
-[Add your input format here]
+5
+0 1 2 3 4
+1 2 5 10 17
+2
 ```
 
 #### Polynomial Equation Output
 ```
-[Add your output format here]
+Fitted Polynomial:
+y = 1 + 0x^1 + 1x^2
 ```
 
 ---
