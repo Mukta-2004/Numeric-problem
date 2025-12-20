@@ -452,21 +452,177 @@ x2 = 1.000
 ### LU Decomposition Method
 
 #### LU Decomposition Theory
-[Add your theory content here]
+ LU Decomposition (Lower–Upper Decomposition)
+ 
+LU decomposition is a method in linear algebra for solving systems of linear equations, finding matrix inverses, and computing determinants efficiently. It factors a square matrix A into two triangular matrices:
+
+A = L * U
+
+where L is a lower triangular matrix (all elements above the diagonal are zero, diagonal usually 1s), and U is an upper triangular matrix (all elements below the diagonal are zero).
+Problem Definition
+We aim to solve a system of linear equations:
+
+A * x = b
+
+where A is the coefficient matrix, x is the unknown vector, and b is the constant vector. Using LU decomposition, we can write:
+
+L * U * x = b
+
+Let y = U * x
+Then we first solve:
+
+L * y = b (forward substitution)
+
+Then we solve:
+
+U * x = y (back substitution)
+
+Steps of LU Decomposition:
+
+1. Start with a square matrix A.
+2. Perform Gaussian elimination to convert A into an upper triangular matrix U.
+3. Record the elimination multipliers; these become the entries of L. The diagonal of L is set to 1.
+4. Solve L * y = b using forward substitution, then U * x = y using back substitution.
+Applications:
+
+1. Solving systems of linear equations with multiple right-hand sides.
+2. Computing determinants efficiently (det(A) = det(L) * det(U)).
+3. Inverting matrices in numerical analysis.
+   
+Advantages:
+
+Reduces computational effort for repeated solutions with the same coefficient matrix.
+Works well with triangular matrices using simple forward/back substitution.
+Related to Gaussian elimination; conceptually simple.
+
+Disadvantages:
+
+Not all matrices can be decomposed without row swaps (pivoting may be needed).
+Requires careful handling to avoid division by zero.
+For very large sparse matrices, specialized algorithms may be more efficient.
+
+
+
+
 
 #### LU Decomposition Code
-```python
-# Add your code here
+```cpp
+#include <bits/stdc++.h>
+#include<fstream>
+using namespace std;
+
+int main() {
+    string inputFile = "LU decomposition input.txt";
+    string outputFile ="LU decomposition output.txt";
+    ifstream in (inputFile);
+
+    if(!in){
+        cout<<" Input file error"<<endl;
+        return 1;
+    }
+int n;
+in >> n;
+vector<vector<double>> A(n, vector<double>(n));
+vector<double> B(n);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            in >> A[i][j];
+        }
+        in >> B[i];
+    }
+in.close();
+ofstream out(outputFile);
+ if(!out){
+        cout<<" Output file error"<<endl;
+        return 1;
+    }
+out << "Number of unknowns: "<<n<<endl;
+out <<endl<< "Augmented Matrix:"<<endl;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++){
+            out << setw(10) << fixed << setprecision(4) << A[i][j];
+        }
+        out << " | " << setw(10) << B[i] << endl;
+    }
+
+    // LU Decomposition (Doolittle Method)
+vector<vector<double>> L(n, vector<double>(n, 0));
+vector<vector<double>> U(n, vector<double>(n, 0));
+  for (int i = 0; i < n; i++) {
+        // Upper triangular matrix U
+        for (int k = i; k < n; k++) {
+            double sum = 0;
+            for (int j = 0; j < i; j++){
+                  sum += L[i][j] * U[j][k];
+            }
+            U[i][k] = A[i][k] - sum;
+        }
+        if (U[i][i] == 0) {
+            out <<endl<< "LU decomposition not possible (zero pivot)."<<endl;
+            return 0;
+        }
+        // Lower triangular matrix L
+        L[i][i] = 1;
+        for (int k = i + 1; k < n; k++) {
+            double sum = 0;
+            for (int j = 0; j < i; j++){
+                  sum += L[k][j] * U[j][i];
+            }
+            L[k][i] = (A[k][i] - sum) / U[i][i];
+        }
+  }
+
+    // Forward substitution: Ly = B
+ vector<double> y(n);
+    for (int i = 0; i < n; i++) {
+        double sum = 0;
+        for (int j = 0; j < i; j++){
+                sum += L[i][j] * y[j];
+        }
+        y[i] = B[i] - sum;
+    }
+
+    // Backward substitution: Ux = y
+ vector<double> x(n);
+    for (int i = n - 1; i >= 0; i--) {
+        double sum = 0;
+        for (int j = i + 1; j < n; j++){
+             sum += U[i][j] * x[j];
+        }
+        x[i] = (y[i] - sum) / U[i][i];
+    }
+
+    // Print solution
+ out <<endl<<"Solution:"<<endl;
+    for (int i = 0; i < n; i++) {
+        out << "x" << i + 1 << " = "<< fixed << setprecision(6) << x[i] << endl;
+    }
+out.close();
+ return 0;
+}
+
 ```
 
 #### LU Decomposition Input
 ```
-[Add your input format here]
+2
+2 1 5
+4 3 11
+
 ```
 
 #### LU Decomposition Output
 ```
-[Add your output format here]
+Number of unknowns: 2
+
+Augmented Matrix:
+    2.0000    1.0000 |     5.0000
+    4.0000    3.0000 |    11.0000
+
+Solution:
+x1 = 2.000000
+x2 = 1.000000
+
 ```
 
 ---
