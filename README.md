@@ -1722,18 +1722,168 @@ y = 2.276154 * x^(2.109951)
 ### Solution of Interpolation and Approximation
 ### Newton's Forward Interpolation
 #### Newton's Forward Interpolation Theory
-[Add your theory content here]
+Newton’s Forward Interpolation method is a numerical technique used to estimate the value of a function when the independent variable values are equally spaced and the required value lies near the beginning of the data table. This method is based on forward finite differences, which represent the successive changes in function values as the independent variable increases. By constructing a forward difference table and using Newton’s forward interpolation polynomial, the function can be approximated accurately near the starting point of the data.
+
+Mathematical Formulation
+
+Let the function values be given at equally spaced points: x0,x1,x2,…,xnwith corresponding values: y0,y1,y2,…,yn
+	​
+The step size is:h=x1−x0
+	​
+Define: u=(x−x0)/h
+	​
+The Newton’s Forward Interpolation Formula is:
+
+y=y0+uΔy0+ 1/2!u(u−1)Δ2y0+ 1/3!u(u−1)(u−2)Δ3y0+⋯ where Δ denotes forward differences.
+
+Procedure (Newton’s Forward Interpolation):
+
+Step 1: Arrange the Given Data
+
+Write the given values of 𝑥 in ascending order: x0,x1,x2,…,xn
+	​
+Write the corresponding values of y:y0,y1,y2,…,yn
+	​
+
+Step 2: Check Equal Spacing
+
+Verify that: x1−x0=x2−x1= ⋯ =h . If spacing is not equal, do not use this method.
+
+Step 3: Construct the Forward Difference Table
+
+Compute first forward differences: Δy0=y1−y0,Δy1=y2−y1,…
+
+Compute second forward differences: Δ2y0=Δy1−Δy0
+	​
+Continue until the required order of differences is obtained. Tabulate all differences neatly.
+
+Step 4: Compute the Parameter u and Identify the value of x at which interpolation is required.​
+
+Step 5: Write the Newton Forward Formula
+
+Step 6: Substitute and Calculate
+
+Substitute values of u and the differences.Use as many terms as required for accuracy.Perform calculations step by step to obtain the interpolated value. Evaluate the polynomial to obtain the required interpolated value.
 #### Newton's Forward Interpolation Code
-```python
-#Add your code here
+```cpp
+#include <iostream>
+#include<bits/stdc++.h>
+#include<fstream>
+using namespace std;
+
+int main()
+
+{
+
+ string inputFile="Forward_equal_input.txt";
+    string outputFile="Forward_equal_output.txt";
+
+    ifstream in(inputFile);
+    if(!in)
+    {
+        cout<<"Input file error!"<<endl;
+        return 1;
+    }
+
+    ofstream out(outputFile);
+    if(!out)
+    {
+         cout<<"Output file error!"<<endl;
+        return 1;
+    }
+    int n;
+    //"How many numbers:";
+    in>>n;
+    vector<double>x(n);
+    vector<double>y(n);
+
+  //"value for x: ";
+    for(int i=0;i<n;i++)
+        in>>x[i];
+
+    double diff=x[1]-x[0];
+
+    for(int i=2;i<n;i++)
+    {
+        if((x[i]-x[i-1])!= diff)
+           {
+               out<<"Difference are not equal\n";
+               return 0;
+           }
+    }
+
+   //"value for y: ";
+    for(int i=0;i<n;i++)
+        in>>y[i];
+
+
+    vector<vector<double>>F(n,vector<double>(n,0));
+
+    for(int i=0;i<n;i++)
+        F[i][0]=y[i];
+
+    //difference table calculation
+
+    for(int j=1;j<n;j++)
+    {
+        for(int i=0;i<n-j;i++)
+            F[i][j]=F[i+1][j-1]-F[i][j-1];
+    }
+
+    out<<"Difference table:\n";
+
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+            out<<F[i][j]<<"   ";
+        out<<endl;
+    }
+
+
+    double result=0;
+    double X;
+   //"Give a value of x: ";
+    in>>X;
+    double h= x[1]-x[0];
+    double u=(X-x[0])/h;
+
+    for(int i=0;i<n;i++)
+    {
+        double key=1;
+        for(int j=0;j<i;j++)
+        {
+            key*=(u-j)/(j+1);
+        }
+
+        result+=key*F[0][i];
+    }
+
+    out<<"\nResult:  "<<result<<endl;
+     in.close();
+out.close();
+
+    return 0;
+}
+
 ```
 #### Newton's Forward Interpolation Input
 ```
-[Add your input format here]
+4
+1 3 5 7
+4 7 9 18
+2
+
 ```
 #### Newton's Forward Interpolation Output
 ```
-[Add your output format here]
+Difference table:
+4   3   -1   8   
+7   2   7   0   
+9   9   0   0   
+18   0   0   0   
+
+Result:  6.125
+
 ```
 
 ### Newton's Backward Interpolation
