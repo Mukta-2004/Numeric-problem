@@ -1520,18 +1520,142 @@ Result is: -0.08771
 ```
 ### Simpson's Three-Eighth Rule
 #### Simpson's Three-Eighth Rule Theory
-[Add your theory content here]
+ Simpson’s 3/8 rule is another closed Newton–Cotes integration method that approximates the function using cubic polynomials. The interval is divided into groups of three equal sub-intervals, and a weighted average of function values is used to compute the area.
+This method requires the total number of sub-intervals to be a multiple of 3. It is often used in combination with Simpson’s 1/3 rule when the number of intervals is not even.
+
+Mathematical Formulation:
+
+Let the interval [a,b] be divided into 𝑛 sub-intervals, where n is a multiple of 3.
+
+The step size is: h= (b−a)/n
+
+The Simpson’s 3/8 rule formula is:
+∫ab ydx≈ 3h/8[y0+yn+3(y1+y2+y4+y5+⋯+yn−1)+2(y3+y6+⋯+yn−3)]
+
+Procedure (Simpson’s 3/8 Rule)
+
+1.Divide the interval [a,b] into n equal sub-intervals, where n is a multiple of 3.
+
+2.Calculate the step size h=(b−a)/n.
+
+3.Evaluate the function values y=f(x) at each of the n+1 points.
+
+4.Substitute the values into Simpson’s 3/8 formula.
+
+5.Compute the final approximate value of the integral.
+
 #### Simpson's Three-Eighth Rule Code
-```python
-#Add your code here
+```cpp
+#include <iostream>
+#include<bits/stdc++.h>
+#include<fstream>
+
+using namespace std;
+
+double function_call(double x)
+{
+    return sqrt(x); // for function 1/(1+ x^2)
+}
+
+double sum1(vector<double>&y, int n)
+{
+    double sum=0;
+    for(int i=1;i<n;i++)
+    {
+        if((i%3)!=0)
+             sum+=y[i];
+    }
+
+    return sum;
+}
+
+double sum2(vector<double>&y ,int n)
+{
+    double sum=0;
+    for(int i=3;i<n;i+=3)
+        sum+=y[i];
+    return sum;
+}
+int main()
+{
+     string inputFile="Simpson(3-8)_input.txt";
+    string outputFile="Simpson(3-8)_output.txt";
+
+    ifstream in(inputFile);
+    if(!in)
+    {
+        cout<<"Input file error!"<<endl;
+        return 1;
+    }
+
+    ofstream out(outputFile);
+    if(!out)
+    {
+         cout<<"Output file error!"<<endl;
+        return 1;
+    }
+   //"Print how many interval: ";
+    int n;
+    in>>n;
+    if(n>=3)
+    {
+       vector<double>x(n+1);
+    vector<double>y(n+1);
+    for(int i=0;i<=n;i++)
+        in>>x[i];
+
+        double check=x[1]-x[0];
+
+      //checking if the intervals are equal or not?
+        for(int i=2;i<=n;i++)
+        {
+            if((x[i]-x[i-1]!=check))
+               {
+                   out<<"Intervals are not same!\n";
+                   return 0;
+               }
+        }
+
+    for(int i=0;i<=n;i++)
+        y[i]=function_call(x[i]);
+
+        double a,b;
+        //"Print upper-bound and lower-bound: ";
+        in>>b>>a;
+
+    double h= (b-a)/n;
+    double c=y[0]+y[n];
+    double ans= (3*h*(c + (3*sum1(y,n)) + (2*sum2(y,n))))/8;
+
+    for(int i=0;i<=n;i++)
+        out<<y[i]<<"  ";
+
+    out<<endl;
+
+    out<<fixed<<setprecision(5);
+    out<<"Result is: "<<ans<<endl;
+    }
+
+    else
+        out<<"Interval is less than 3!\n";
+  in.close();
+out.close();
+    return 0;
+}
+
 ```
 #### Simpson's Three-Eighth Rule Input
 ```
-[Add your input format here]
+3
+0 1 2 3
+3 0
+
 ```
 #### Simpson's Three-Eighth Rule Output
 ```
-[Add your output format here]
+0  1  1.41421  1.73205  
+Result is: 3.36551
+
 ```
 
 
