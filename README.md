@@ -518,7 +518,7 @@ Conclusion:
 The Matrix Inversion Method is an effective technique for finding the inverse of a matrix and solving linear systems. While straightforward, it becomes inefficient for large matrices and requires careful handling of numerical precision.
 
 #### Matrix Inversion Code
-```python
+```cpp
 #include<bits/stdc++.h>
 #include<fstream>
 using namespace std;
@@ -703,7 +703,7 @@ Conclusion:
 The False Position Method is a reliable root-finding technique that combines the safety of bracketing methods with faster convergence than bisection. However, its performance depends on the nature of the function and interval selection.
 
 #### False Position Code
-```python
+```cpp
 #include<bits/stdc++.h>
 #include <fstream>
 using namespace std;
@@ -854,7 +854,7 @@ Conclusion:
 
 The Secant Method is an efficient root-finding technique that improves upon bracketing methods in speed. However, its success strongly depends on the choice of initial guesses.
 #### Secant Code
-```python
+```cpp
 #include <bits/stdc++.h>
 #include <fstream>
 using namespace std;
@@ -1057,7 +1057,7 @@ Conclusion:
 Linear Regression is a fundamental numerical technique for modeling linear relationships. While easy to apply and efficient, its accuracy depends on the nature and quality of the data.
 
 #### Linear Equation Code
-```python
+```cpp
 #include<bits/stdc++.h>
 #include <fstream>
 using namespace std;
@@ -1220,7 +1220,7 @@ Conclusion:
 
 Transcendental Regression extends linear regression to nonlinear equations by using transformations. It is effective for power and exponential models but requires careful handling of data values and assumptions.
 #### Transcendental Equation Code
-```python
+```cpp
 #include<bits/stdc++.h>
 #include<fstream>
 using namespace std;
