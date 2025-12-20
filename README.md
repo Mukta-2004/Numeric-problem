@@ -1391,18 +1391,132 @@ y = 2.276154 * x^(2.109951)
 ### Solution of Numerical Integration
 ### Simpson's One-Third Rule
 #### Simpson's One-Third Rule Theory
-[Add your theory content here]
+Simpson’s 1/3 rule is a numerical integration technique that approximates the curve by a series of parabolic arcs. The rule requires the interval 
+[a,b] to be divided into an even number of equal sub-intervals. Function values are evaluated at equally spaced points, and a weighted sum of these values is used to approximate the area under the curve.
+
+Mathematical Formulation
+
+Let
+𝑦=𝑓(𝑥)  be the given function to be integrated over the closed interval [a,b].
+Let the total number of sub-intervals be 𝑛, where n is even. Then the number of data points is n+1.
+
+The step size is: ℎ=(b−a)/n
+	​Let:
+𝑦0=𝑓(𝑥0),  𝑦1=𝑓(𝑥1),…,𝑦𝑛=𝑓(𝑥𝑛)
+
+The Simpson’s 1/3 rule formula is:
+∫abydx ≈ 3h [y0+yn+4(y1+y3+⋯+yn−1)+2(y2+y4+⋯+yn−2)]
+
+Procedure (Simpson’s 1/3 Rule)
+
+1.Select n+1 equally spaced values of x in the interval [a,b], where n is even.
+2.Compute the corresponding values of 𝑦 using the given function y=f(x).
+3.Calculate the step size h=(b−a)/n.
+4.Substitute the values of y0,y1,…,yn into Simpson’s 1/3 formula.
+5.Perform the calculations to obtain the approximate value of the integral.
+
 #### Simpson's One-Third Rule Code
-```python
-#Add your code here
+```cpp
+#include <iostream>
+#include<bits/stdc++.h>
+#include<fstream>
+
+using namespace std;
+
+double function_call(double x)
+{
+    return 1/(1+(x*x)); // for function 1/(1+ x^2)
+}
+
+double odd(vector<double>&y, int n)
+{
+    double sum=0;
+    for(int i=1;i<n;i+=2)
+        sum+=y[i];
+    return sum;
+}
+
+double even(vector<double>&y ,int n)
+{
+    double sum=0;
+    for(int i=2;i<n-1;i+=2)
+        sum+=y[i];
+    return sum;
+}
+int main()
+{
+     string inputFile="Simpson(1-3)_input.txt";
+    string outputFile="Simpson(1-3)_output.txt";
+
+    ifstream in(inputFile);
+    if(!in)
+    {
+        cout<<"Input file error!"<<endl;
+        return 1;
+    }
+
+    ofstream out(outputFile);
+    if(!out)
+    {
+         cout<<"Output file error!"<<endl;
+        return 1;
+    }
+ //"Print how many interval: ";
+    int n;
+    in>>n;
+    if(n>=2 && n%2==0)
+    {
+       vector<double>x(n+1);
+    vector<double>y(n+1);
+    for(int i=0;i<=n;i++)
+        in>>x[i];
+
+        double check=x[1]-x[0];
+
+      //checking if the intervals are equal or not?
+        for(int i=2;i<=n;i++)
+        {
+            if((x[i]-x[i-1]!=check))
+               {
+                   out<<"Intervals are not same!\n";
+                   return 0;
+               }
+        }
+
+    for(int i=0;i<=n;i++)
+        y[i]=function_call(x[i]);
+
+        double a,b;
+       //"Print upper-bound and lower-bound: ";
+        in>>b>>a;
+
+    double h= (b-a)/n;
+    double c=y[0]+y[n];
+    double ans= (h*(c + (4*odd(y,n)) + (2*even(y,n))))/3;
+
+    out<<fixed<<setprecision(5);
+    out<<"Result is: "<<ans<<endl;
+    }
+
+    else
+        out<<"Interval is not even!\n";
+ in.close();
+out.close();
+    return 0;
+}
+
 ```
 #### Simpson's One-Third Rule Input
 ```
-[Add your input format here]
+4
+3 5 7 9 11
+2 5
+
 ```
 #### Simpson's One-Third Rule Output
 ```
-[Add your output format here]
+Result is: -0.08771
+
 ```
 ### Simpson's Three-Eighth Rule
 #### Simpson's Three-Eighth Rule Theory
