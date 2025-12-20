@@ -74,33 +74,33 @@
     - [Output](#transcendental-equation-output)
 
 - [Solution of Interpolation and Approximation](#solution-of-interpolation-and-approximation)
-  - [Newton's Forward Interpolation](#newton-forward-interpolation)
-    - [Theory](#newton-forward-interpolation-theory)
-    - [Code](#newton-forward-interpolation-code)
-    - [Input](#newton-forward-interpolation-input)
-    - [Output](#newton-forward-interpolation-output)
-  - [Newton's Backward Interpolation](#newton-backward-interpolation)
-    - [Theory](#newton-backward-interpolation-theory)
-    - [Code](#newton-backward-interpolation-code)
-    - [Input](#newton-backward-interpolation-input)
-    - [Output](#newton-backward-interpolation-output)
-  - [Newton's Divided Difference Interpolation](#newton-divided-difference-interpolation)
-    - [Theory](#newton-divided-difference-interpolation-theory)
-    - [Code](#newton-divided-difference-interpolation-code)
-    - [Input](#newton-divided-difference-interpolation-input)
-    - [Output](#newton-divided-difference-interpolation-output)
+  - [Newton's Forward Interpolation](#newtons-forward-interpolation)
+    - [Theory](#newtons-forward-interpolation-theory)
+    - [Code](#newtons-forward-interpolation-code)
+    - [Input](#newtons-forward-interpolation-input)
+    - [Output](#newtons-forward-interpolation-output)
+  - [Newton's Backward Interpolation](#newtons-backward-interpolation)
+    - [Theory](#newtons-backward-interpolation-theory)
+    - [Code](#newtons-backward-interpolation-code)
+    - [Input](#newtons-backward-interpolation-input)
+    - [Output](#newtons-backward-interpolation-output)
+  - [Newton's Divided Difference Interpolation](#newtons-divided-difference-interpolation)
+    - [Theory](#newtons-divided-difference-interpolation-theory)
+    - [Code](#newtons-divided-difference-interpolation-code)
+    - [Input](#newtons-divided-difference-interpolation-input)
+    - [Output](#newtons-divided-difference-interpolation-output)
 
 - [Solution of Numerical Integration](#solution-of-numerical-integration)
-  - [Simpson's One-Third Rule](#simpson-one-third-rule)
-    - [Theory](#simpson-one-third-rule-theory)
-    - [Code](#simpson-one-third-rule-code)
-    - [Input](#simpson-one-third-rule-input)
-    - [Output](#simpson-one-third-rule-output)
-  - [Simpson's Three-Eighth Rule](#simpson-three-eighth-rule)
-    - [Theory](#simpson-three-eighth-rule-theory)
-    - [Code](#simpson-three-eighth-rule-code)
-    - [Input](#simpson-three-eighth-rule-input)
-    - [Output](#simpson-three-eighth-rule-output)
+  - [Simpson's One-Third Rule](#simpsons-one-third-rule)
+    - [Theory](#simpsons-one-third-rule-theory)
+    - [Code](#simpsons-one-third-rule-code)
+    - [Input](#simpsons-one-third-rule-input)
+    - [Output](#simpsons-one-third-rule-output)
+  - [Simpson's Three-Eighth Rule](#simpsons-three-eighth-rule)
+    - [Theory](#simpsons-three-eighth-rule-theory)
+    - [Code](#simpsons-three-eighth-rule-code)
+    - [Input](#simpsons-three-eighth-rule-input)
+    - [Output](#simpsons-three-eighth-rule-output)
 
 ---
 
@@ -1077,6 +1077,7 @@ Converged after 7 iterations
 Approximate Root = -0.894696
 
 ```
+---
 ### Secant Method
 #### Secant Theory
 Introduction:
@@ -1222,6 +1223,8 @@ Converged after 4 iterations
 Approximate Root = -0.894703
 
 ```
+
+---
 
 ### Newton Raphson Method
 #### Newton Raphson Theory
@@ -1711,7 +1714,7 @@ Backward_result: 3.19401
 
 ## Solution of Curve Fitting
 
-### Linear Equation
+### Linear Equation Method
 
 #### Linear Equation Theory
 Introduction:
@@ -1849,7 +1852,7 @@ y = 2.2000 + 0.6000x
 
 ---
 
-### Polynomial Equation
+### Polynomial Equation Method
 
 #### Polynomial Equation Theory
 Polynomial curve fitting regression is a statistical technique used to model non-linear relationships between a dependent variable y and an independent variable x. Unlike linear regression, which assumes a constant rate of change, polynomial regression allows the rate of change to vary with 𝑥 by including higher powers of x.
@@ -2053,7 +2056,7 @@ y = 1 + 0x^1 + 1x^2
 
 ---
 
-### Transcendental Equation
+### Transcendental Equation Method
 #### Transcendental Equation Theory
 Introduction:
 
