@@ -1359,18 +1359,138 @@ Root = 2
 ### Solution of Differential Equations and Differentiation
 ### Runge-Kutta Method
 #### Runge-Kutta Theory
-[Add your theory content here]
+  Runge-Kutta 4th-Order Method (RK4)
+  
+The Runge-Kutta (RK) method is a family of iterative techniques used to approximate solutions of ordinary differential equations (ODEs). These methods are widely used because they provide accurate numerical solutions when analytical methods are difficult to apply.
+Among RK methods, the 4th-order Runge-Kutta method (RK4) is the most commonly used, offering a good balance between accuracy and computational efficiency.
+
+Problem Definition:
+
+We aim to solve a first-order ODE of the form:
+
+dy/dx = f(x, y)
+
+with the initial condition:
+
+y(x0) = y0
+
+where x0 is the starting value of the independent variable x, and y0 is the known value of the dependent variable y at x0.
+
+Steps of RK4 Method:
+
+1. Choose a step size h: The step size h determines how much x is incremented at each step. Smaller h gives higher accuracy but requires more computations.
+2. Compute intermediate slopes for each step from x_n to x_{n+1} = x_n + h:
+
+   
+k1 = h * f(x_n, y_n)
+
+k2 = h * f(x_n + h/2, y_n + k1/2)
+
+k3 = h * f(x_n + h/2, y_n + k2/2)
+
+k4 = h * f(x_n + h, y_n + k3)
+
+
+3. Update the solution:
+
+y(n+1) = yn + (1/6) * (k1 + 2k2 + 2k3 + k4)
+
+4. Repeat the process until the desired value of x is reached.
+ 
+Applications:
+
+1. Solving initial value problems in physics, engineering, and applied mathematics.
+2. Modeling dynamic systems such as population growth, chemical reactions, and electrical circuits.
+3. Simulating systems where analytical solutions are difficult or impossible.
+
+Advantages:
+
+High accuracy without requiring higher derivatives.
+More stable than simpler methods like Euler’s method.
+Easy to implement for most first-order ODEs.
+
+Disadvantages:
+
+Requires multiple function evaluations per step (4 per step).
+Not as efficient for very large systems or stiff equations without modification.
+
 #### Runge-Kutta Code
-```python
-# Add your code here
+```cpp
+#include <bits/stdc++.h>
+#include<fstream>
+using namespace std;
+
+// Define dy/dx = f(x, y)
+double f(double x, double y) {
+    return x + y;   // example: dy/dx = x + y
+}
+
+int main() {
+     string inputFile = "Range Kutta input.txt";
+    string outputFile ="Range Kutta output.txt";
+    ifstream in (inputFile);
+
+    if(!in){
+        cout<<" Input file error"<<endl;
+        return 1;
+    }
+ double x0, y0, xn, h;
+
+ in >> x0 >> y0;
+ in >> xn;
+ in >> h;
+ in.close();
+ofstream out(outputFile);
+ if(!out){
+        cout<<" Output file error"<<endl;
+        return 1;
+    }
+
+ int n = (xn - x0) / h;
+ double x = x0, y = y0;
+ out << "Initial x0 and y0: "<<x0<<" "<<y0<<endl;
+ out << "Final x: "<<xn<<endl;
+ out << "Step size h: "<<h<<endl;
+
+ out << "Step     x               y"<<endl;
+ out << fixed << setprecision(6);
+
+    for (int i = 1; i <= n; i++) {
+        double k1 = h * f(x, y);
+        double k2 = h * f(x + h/2, y + k1/2);
+        double k3 = h * f(x + h/2, y + k2/2);
+        double k4 = h * f(x + h, y + k3);
+
+        y = y + (k1 + 2*k2 + 2*k3 + k4) / 6.0;
+        x = x + h;
+
+        out << i << "\t " << x << "\t " << y << endl;
+    }
+
+ out <<endl<<"Approximate solution at x = " << xn<< " is y = " << y << endl;
+out.close();
+return 0;
+}
+
 ```
 #### Runge-Kutta Input
 ```
-[Add your input format here]
+0 1
+0.2
+0.1
+
 ```
 #### Runge-Kutta Output
 ```
-[Add your output format here]
+Initial x0 and y0: 0 1
+Final x: 0.2
+Step size h: 0.1
+Step     x               y
+1	 0.100000	 1.110342
+2	 0.200000	 1.242805
+
+Approximate solution at x = 0.200000 is y = 1.242805
+
 ```
 
 ### Differentiation Method
