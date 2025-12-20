@@ -1719,8 +1719,13 @@ y values:
 y = 2.276154 * x^(2.109951)
 
 ```
+
+---
+
 ### Solution of Interpolation and Approximation
+
 ### Newton's Forward Interpolation
+
 #### Newton's Forward Interpolation Theory
 Newton’s Forward Interpolation method is a numerical technique used to estimate the value of a function when the independent variable values are equally spaced and the required value lies near the beginning of the data table. This method is based on forward finite differences, which represent the successive changes in function values as the independent variable increases. By constructing a forward difference table and using Newton’s forward interpolation polynomial, the function can be approximated accurately near the starting point of the data.
 
@@ -1764,6 +1769,7 @@ Step 5: Write the Newton Forward Formula
 Step 6: Substitute and Calculate
 
 Substitute values of u and the differences.Use as many terms as required for accuracy.Perform calculations step by step to obtain the interpolated value. Evaluate the polynomial to obtain the required interpolated value.
+
 #### Newton's Forward Interpolation Code
 ```cpp
 #include <iostream>
@@ -1866,6 +1872,7 @@ out.close();
 }
 
 ```
+
 #### Newton's Forward Interpolation Input
 ```
 4
@@ -1874,6 +1881,7 @@ out.close();
 2
 
 ```
+
 #### Newton's Forward Interpolation Output
 ```
 Difference table:
@@ -1885,6 +1893,8 @@ Difference table:
 Result:  6.125
 
 ```
+
+---
 
 ### Newton's Backward Interpolation
 #### Newton's Backward Interpolation Theory
